@@ -1,12 +1,39 @@
 require "gosu"
 require_relative "z_order"
+require "./body"
 
 class NbodySimulation < Gosu::Window
 
-  def initialize
+  def initialize(file)
     super(640, 640, false)
     self.caption = "NBody simulation"
     @background_image = Gosu::Image.new("images/space.jpg", tileable: true)
+    simulation = open(file)
+    info = simulation.read
+
+    line_num = 0
+    File.open(file).each do |line|
+    	body_values = []
+    	line_num += 1
+    	info = line.split(" ")
+    	if line_num == 1
+    		number_of_bodies = info # correct value
+    		#puts number_of_bodies
+    	elsif line_num == 2
+    		radius_of_universe = info # correct value
+    	elsif line_num != 1 && line_num != 2
+			body_values.push(info[0].strip)
+			body_values.push(info[1].strip)
+			body_values.push(info[2].strip)
+			body_values.push(info[3].strip)
+			body_values.push(info[4].strip)
+			body_values.push(info[5].strip)
+
+			Body.new(body_values[0], body_values[1], body_values[2], body_values[3], body_values[4], body_values[5])
+    	end
+    	
+  	end
+
   end
 
   def update
@@ -22,5 +49,20 @@ class NbodySimulation < Gosu::Window
   
 end
 
-window = NbodySimulation.new
+file = "simulations/"
+
+if ARGV.length == 0
+	# default simulation
+	file = file + "planets.txt"
+	
+else
+	# accepts command line text in form of array takes the first one
+	# sets it equal to the input combines with the initial file location
+	input = ARGV
+	input = input[0]
+	file = file + input
+end
+
+
+window = NbodySimulation.new(file)
 window.show
