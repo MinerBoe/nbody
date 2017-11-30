@@ -3,40 +3,27 @@ require_relative "z_order"
 
 class Body
 
-	attr_reader :x_coordinate, :y_coordinate, :x_vel, :y_vel, :mass, :image
+	attr_reader :x_coordinate, :y_coordinate, :x_vel, :y_vel, :mass, :image, :universe_radius
 
-	def initialize(x_coordinate, y_coordinate, x_vel, y_vel, mass, image)
+	def initialize(x_coordinate, y_coordinate, x_vel, y_vel, mass, image, universe_radius)
 		@x_coordinate = x_coordinate
 		@y_coordinate = y_coordinate
 		@x_vel = x_vel
 		@y_vel = y_vel
+		@universe_radius = universe_radius
 		@mass = mass
-		@image = image
-		puts "this is my x_coordinate #{x_coordinate}"
-		#puts y_coordinate
-		
-		# File.open("simulations/planets.txt").each do |line|
-  #   		info = line.split("/\n/")
-  #   		puts info
-  #   		if line == 0
-  #   			@number_of_bodies = info[0]
-  #   		end
+		puts image
+		file = "images/" + image
+		@image = Gosu::Image.new(file)
 
-  #   		if line == 1
+	end
 
-  #   		end
+	def draw()
+		# 320 is half of the window to create a central 0,0 origin
+		x_position = ((x_coordinate / universe_radius) * 320) + 320
+		y_position = ((y_coordinate / universe_radius) * 320) + 320
+		@image.draw(x_position, y_position, 1)
 
-  #   		if line != 0 && line != 1
-  #   			@x_coordinates.push(info[0].strip)
-  #   			@y_coordinates.push(info[1])
-  #   			@x_vel.push(info[2])
-  #   			@y_vel.push(info[3])
-  #   			@images.push(info[4])
-  #   		end
-
-  #   	end
- 
 	end
 
 end
-
