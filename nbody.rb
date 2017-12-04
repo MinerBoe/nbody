@@ -4,6 +4,8 @@ require "./body"
 
 class NbodySimulation < Gosu::Window
 
+	attr_accessor :bodies
+
   def initialize(file)
     super(640, 640, false)
     self.caption = "NBody simulation"
@@ -36,12 +38,13 @@ class NbodySimulation < Gosu::Window
   end
 
   def update
+
   end
 
   def draw
     @background_image.draw(0, 0, ZOrder::Background)
     @bodies.each do |body|
-      body.draw()
+      body.draw(@bodies)
     end
   end
 
