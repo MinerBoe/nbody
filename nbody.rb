@@ -15,24 +15,30 @@ class NbodySimulation < Gosu::Window
     info = simulation.read
     radius_of_universe = 0
     line_num = 0
+    number_of_bodies = 0
+    bodies_counted = 0
     File.open(file).each do |line|
 
     	body_values = []
     	line_num += 1
     	info = line.split(" ")
-    	if line_num == 1
-    	   number_of_bodies = info
+    	if line_num == 1 
+    		number_of_bodies = info[0].to_f
     	elsif line_num == 2
-    	   radius_of_universe = info[0].to_f
-    	elsif line_num != 1 && line_num != 2
-			     body_values.push(info[0])
-			     body_values.push(info[1])
-			     body_values.push(info[2])
-			     body_values.push(info[3])
-			     body_values.push(info[4])
-			     body_values.push(info[5])
+			radius_of_universe = info[0].to_f
+    	elsif line_num != 1 && line_num != 2 && bodies_counted < number_of_bodies
+    		if info[0] != nil 
+				body_values.push(info[0])
+				body_values.push(info[1])
+				body_values.push(info[2])
+				body_values.push(info[3])
+				body_values.push(info[4])
+				body_values.push(info[5])
 
-			     @bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe))
+				@bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe))
+    			bodies_counted += 1
+
+    		end
     	end
   	end
   end

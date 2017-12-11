@@ -26,44 +26,57 @@ class Body
 	def draw(bodies)
 		d = []
 		d = calculate_force(bodies)
-		@image.draw(x_position + d[0], y_position + d[1], 1)
+		d_x = (d[0].to_f / universe_radius) * 320
+		d_y = (d[1].to_f / universe_radius) * 320
+		@x_position = @x_position + d_x
+		@y_position = @y_position + d_y
+		@image.draw(@x_position, @y_position, 1)
 	end
 
 	def calculate_force(bodies)
 		total_force_x = 0
 		total_force_y = 0
+		d_x = 0
+		d_y = 0
 
 		bodies.each do |body|
-			dx = (x_position - body.x_coordinate)
-			dy = (y_position - body.y_coordinate)
-			distance = calculate_distance(dx, dy)
-			force = (G * mass * body.mass) / (distance * distance)
-			force_x = force * (dx/distance)
-			force_y = force * (dy/distance)
-			total_force_x += force_x
-			total_force_y += force_y
+
+			if body != self 
+
+				dx = body.x_coordinate - self.x_coordinate
+				dy = body.y_coordinate - self.y_coordinate
+				distance = calculate_distance(dx, dy)
+				force = (G * self.mass * body.mass) / (distance * distance)
+				force_x = force * (dx/distance)
+				force_y = force * (dy/distance)
+				total_force_x += force_x
+				total_force_y += force_y
+
+			end
 		end
 		
 		a_x = total_force_x / mass
 		v_x = (a_x * 25000) + x_vel
 		d_x = x_vel + (v_x * 25000)
 
+		@x_vel = v_x
+		@x_coordinate += d_x
+
 		a_y = total_force_y / mass
 		v_y = (a_y * 25000) + y_vel
 		d_y = y_vel + (v_y * 25000)
+		@y_vel = v_y
+		@y_coordinate += d_y
 
 		return d_x, d_y
 	end
 
 	def calculate_distance(dx, dy)
-		distance = Math.sqrt((dx * dx) + (dy * dy))
+		dx = dx * dx
+		dy = dy * dy
+		distance = Math.sqrt(dx + dy)
+
 		return distance
 	end
 
-	# def calculate_distance_change(total_force)
-	# 	a_x = total_force_x / mass
-	# 	v_x = (a * 25000) + x_vel
-	# 	d_x = x_vel + (v_x * 25000)
-
-	# end
 end
