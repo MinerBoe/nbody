@@ -14,19 +14,21 @@ class NbodySimulation < Gosu::Window
     simulation = open(file)
     info = simulation.read
     radius_of_universe = 0
-    line_num = 0
+    line_num = 1
     number_of_bodies = 0
     bodies_counted = 0
     File.open(file).each do |line|
 
     	body_values = []
-    	line_num += 1
+
     	info = line.split(" ")
-    	if line_num == 1 
+    	if line_num == 1 && info[0] != nil
     		number_of_bodies = info[0].to_f
-    	elsif line_num == 2
+    		line_num += 1
+    	elsif line_num == 2 && info[0] != nil
 			radius_of_universe = info[0].to_f
-    	elsif line_num != 1 && line_num != 2 && bodies_counted < number_of_bodies
+			line_num += 1
+    	elsif bodies_counted < number_of_bodies
     		if info[0] != nil 
 				body_values.push(info[0])
 				body_values.push(info[1])
