@@ -37,7 +37,7 @@ class NbodySimulation < Gosu::Window
 				body_values.push(info[4])
 				body_values.push(info[5])
 
-				@bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe))
+				@bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe, self.width))
     			bodies_counted += 1
 
     		end
@@ -75,7 +75,6 @@ else
 	input = input[0]
 	file = file + input
 end
-
 
 window = NbodySimulation.new(file)
 window.show

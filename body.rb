@@ -4,16 +4,19 @@ require 'mathn'
 
 G = 6.67408e-11
 
+
 class Body
 
-	attr_accessor :x_position, :y_position, :x_coordinate, :y_coordinate, :x_vel, :y_vel, :mass, :image, :universe_radius
+	attr_accessor :x_position, :y_position, :x_coordinate, :y_coordinate, :x_vel, :y_vel, :mass, :image, :universe_radius, :half_window, :window_size
 
-	def initialize(x_coordinate, y_coordinate, x_vel, y_vel, mass, image, universe_radius)
+	def initialize(x_coordinate, y_coordinate, x_vel, y_vel, mass, image, universe_radius, window_size)
 		@x_coordinate = x_coordinate
 		@y_coordinate = y_coordinate
+		@window_size = window_size
 		# 320 is half of the window to create a central 0,0 origin
-		@x_position = ((x_coordinate / universe_radius) * 320.0) + 320
-		@y_position = ((y_coordinate / universe_radius) * 320.0) + 320
+		@half_window = @window_size / 2.0
+		@x_position = ((x_coordinate / universe_radius) * half_window) + half_window
+		@y_position = ((y_coordinate / universe_radius) * half_window) + half_window
 		@x_vel = x_vel
 		@y_vel = y_vel
 		@universe_radius = universe_radius
@@ -26,11 +29,11 @@ class Body
 	def draw(bodies)
 		d = []
 		d = calculate_force(bodies)
-		d_x = (d[0].to_f / universe_radius) * 320
-		d_y = (d[1].to_f / universe_radius) * 320
+		d_x = (d[0].to_f / universe_radius) * half_window
+		d_y = (d[1].to_f / universe_radius) * half_window
 		@x_position = @x_position + d_x
 		@y_position = @y_position + d_y
-		@image.draw(@x_position, @y_position, 1)
+		@image.draw(@x_position, @y_position, ZOrder::Body)
 	end
 
 	def calculate_force(bodies)
@@ -54,17 +57,19 @@ class Body
 
 			end
 		end
+
+		t = 25000
 		
 		a_x = total_force_x / mass
-		v_x = (a_x * 25000) + x_vel
-		d_x = x_vel + (v_x * 25000)
+		v_x = (a_x * t) + x_vel
+		d_x = x_vel + (v_x * t)
 
 		@x_vel = v_x
 		@x_coordinate += d_x
 
 		a_y = total_force_y / mass
-		v_y = (a_y * 25000) + y_vel
-		d_y = y_vel + (v_y * 25000)
+		v_y = (a_y * t) + y_vel
+		d_y = y_vel + (v_y * t)
 		@y_vel = v_y
 		@y_coordinate += d_y
 
