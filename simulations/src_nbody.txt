@@ -1,2 +1,0 @@
-\\Mvhs-app01\2010\SIGLEYEN\SigleyNbody\nbody\Planet.java
-\\Mvhs-app01\2010\SIGLEYEN\SigleyNbody\nbody\runner.java
