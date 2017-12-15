@@ -32,7 +32,7 @@ class Body
 		d_x = (d[0].to_f / universe_radius) * half_window
 		d_y = (d[1].to_f / universe_radius) * half_window
 		@x_position = @x_position + d_x
-		@y_position = @y_position + d_y
+		@y_position = @y_position - d_y
 		@image.draw(@x_position, @y_position, ZOrder::Body)
 	end
 
@@ -62,14 +62,15 @@ class Body
 		
 		a_x = total_force_x / mass
 		v_x = (a_x * t) + x_vel
-		d_x = x_vel + (v_x * t)
+		d_x = (v_x * t) + x_position
 
 		@x_vel = v_x
 		@x_coordinate += d_x
 
-		a_y = total_force_y / mass
+		a_y = (total_force_y / mass)
 		v_y = (a_y * t) + y_vel
-		d_y = y_vel + (v_y * t)
+		d_y = (v_y * t) + y_position
+
 		@y_vel = v_y
 		@y_coordinate += d_y
 
@@ -77,9 +78,9 @@ class Body
 	end
 
 	def calculate_distance(dx, dy)
-		dx = dx * dx
-		dy = dy * dy
-		distance = Math.sqrt(dx + dy)
+		dx_squared = dx * dx
+		dy_squared = dy * dy
+		distance = Math.sqrt(dx_squared + dy_squared)
 
 		return distance
 	end
