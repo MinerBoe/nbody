@@ -3,7 +3,7 @@ require_relative "z_order"
 require 'mathn'
 
 G = 6.67408e-11
-
+TIME = 25000
 
 class Body
 
@@ -57,19 +57,17 @@ class Body
 
 			end
 		end
-
-		t = 25000
 		
 		a_x = total_force_x / mass
-		v_x = (a_x * t) + x_vel
-		d_x = (v_x * t) + x_position
+		v_x = (a_x * TIME) + x_vel
+		d_x = (v_x * TIME) + x_position
 
 		@x_vel = v_x
 		@x_coordinate += d_x
 
 		a_y = (total_force_y / mass)
-		v_y = (a_y * t) + y_vel
-		d_y = (v_y * t) + y_position
+		v_y = (a_y * TIME) + y_vel
+		d_y = (v_y * TIME) + y_position
 
 		@y_vel = v_y
 		@y_coordinate += d_y
