@@ -15,14 +15,15 @@ class Body
 		@window_size = window_size
 		# 320 is half of the window to create a central 0,0 origin
 		@half_window = @window_size / 2.0
-		@x_position = ((x_coordinate / universe_radius) * half_window) + half_window
-		@y_position = ((y_coordinate / universe_radius) * half_window) + half_window
+		
 		@x_vel = x_vel
 		@y_vel = y_vel
 		@universe_radius = universe_radius
 		@mass = mass
 		file = "images/" + image
 		@image = Gosu::Image.new(file)
+		@x_position = ((x_coordinate / universe_radius) * half_window) + half_window - (@image.width/2)
+		@y_position = ((y_coordinate / universe_radius) * half_window) + half_window - (@image.height/2)
 
 	end
 
