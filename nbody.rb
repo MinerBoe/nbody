@@ -36,8 +36,15 @@ class NbodySimulation < Gosu::Window
 				body_values.push(info[3])
 				body_values.push(info[4])
 				body_values.push(info[5])
+				body_values.push(info[6]) # body_radius
+				if info[7] != nil
+					body_values.push(info[7]) # z_velocity
+				else
+					body_values.push(0) # if no z_velocity given, default to 0
+				end
 
-				@bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe, self.width))
+
+				@bodies.push(Body.new(body_values[0].to_f, body_values[1].to_f, body_values[2].to_f, body_values[3].to_f, body_values[4].to_f, body_values[5].to_s, radius_of_universe, self.width, body_values[6].to_f, body_values[7.to_f]))
     			bodies_counted += 1
 
     		end
@@ -46,7 +53,13 @@ class NbodySimulation < Gosu::Window
   end
 
   def update
-
+  	@bodies.each do |body|
+      if body.did_collide?(@bodies) == true
+      	# create a new body with the pre-collision body's velocity, location, and radius
+      	# but that is half the mass of the original
+      	@bodies.push(Body.new(#initial values))
+      end
+    end
   end
 
   def draw
